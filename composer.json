@@ -8,8 +8,8 @@
         "laravel"
     ],
     "require": {
-        "php": "^7.2",
-        "laravel/framework": "^6.0",
+        "php": "^7.2.5",
+        "laravel/framework": "^6.0||^7.0",
         "calcinai/xero-php": "^2.0"
     },
     "require-dev": {
