@@ -4,7 +4,7 @@ Xero Laravel provides a wrapper around xero.
 
 ## Requirements
 
-- Laravel 6
+- Laravel 6+
 - PHP 7.2+
 
 ## Installation
