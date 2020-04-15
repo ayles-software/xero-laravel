@@ -14,10 +14,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/xero-laravel.php', 'xero-laravel.php'
-        );
-
         $this->loadMigrationsFrom(
             __DIR__.'/../database/migrations'
         );
