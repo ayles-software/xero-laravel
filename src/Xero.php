@@ -184,6 +184,11 @@ class Xero extends Application
                 $this->oauth->credentials->token,
                 $this->oauth->credentials->tennant_id
             );
+
+            $instance->oauth = $this->oauth;
+
+            // swap out the instance with the updated token one
+            app()->bind('Xero', $instance);
         }
 
         return new QueryBuilder($instance->load($this->modelMapping[$name]), $instance);
