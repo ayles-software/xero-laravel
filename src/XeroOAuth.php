@@ -29,9 +29,7 @@ class XeroOAuth
             'redirectUri' => config('xero-laravel.redirect_url'),
         ]);
 
-        if ($this->credentials && $this->credentials->hasExpired) {
-            $this->refresh();
-        }
+        $this->refresh();
     }
 
     public function flow()
@@ -51,7 +49,11 @@ class XeroOAuth
 
     public function refresh()
     {
-        $this->generate('refresh_token', ['refresh_token' => $this->credentials->refresh_token]);
+        if ($this->credentials && $this->credentials->has_expired) {
+            $this->generate('refresh_token', ['refresh_token' => $this->credentials->refresh_token]);
+        }
+
+        return $this->credentials && $this->credentials->has_expired;
     }
 
     protected function generate($type, $data)

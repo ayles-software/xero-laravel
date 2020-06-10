@@ -20,7 +20,10 @@ class ServiceProvider extends BaseServiceProvider
 
         $this->app->singleton('Xero', function () {
             return with(app(XeroOAuth::class), function ($oauth) {
-                return new Xero($oauth->credentials->token, $oauth->credentials->tenant_id);
+                $instance = new Xero($oauth->credentials->token, $oauth->credentials->tenant_id);
+                $instance->oauth = $oauth;
+
+                return $instance;
             });
         });
     }

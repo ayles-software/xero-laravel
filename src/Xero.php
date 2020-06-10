@@ -165,6 +165,8 @@ class Xero extends Application
         "payrollUSEmployeeHomeAddresses" => \XeroPHP\Models\PayrollUS\Employee\HomeAddress::class,
     ];
 
+    public $oauth;
+
     public function __call($name, $arguments)
     {
         $relationships = array_keys($this->modelMapping);
@@ -173,6 +175,17 @@ class Xero extends Application
             throw new BadMethodCallException();
         }
 
-        return new QueryBuilder($this->load($this->modelMapping[$name]), $this);
+        // default
+        $instance = $this;
+
+        // make sure we have an active token
+        if ($this->oauth->refresh()) {
+            $instance = new static(
+                $this->oauth->credentials->token,
+                $this->oauth->credentials->tennant_id
+            );
+        }
+
+        return new QueryBuilder($instance->load($this->modelMapping[$name]), $instance);
     }
 }
