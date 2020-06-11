@@ -52,8 +52,6 @@ class XeroOAuth
         if ($this->credentials && $this->credentials->has_expired) {
             $this->generate('refresh_token', ['refresh_token' => $this->credentials->refresh_token]);
         }
-
-        return $this->credentials && $this->credentials->has_expired;
     }
 
     protected function generate($type, $data)
