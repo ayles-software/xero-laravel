@@ -3,6 +3,7 @@
 namespace AylesSoftware\XeroLaravel;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use AylesSoftware\XeroLaravel\Entities\XeroAccess;
 use Calcinai\OAuth2\Client\Provider\Xero as XeroOAuthClient;
 
@@ -65,13 +66,15 @@ class XeroOAuth
 
     protected function saveCredentials()
     {
-        XeroAccess::setAllObsolete();
+        DB::transaction(function () {
+            XeroAccess::setAllObsolete();
 
-        $this->credentials = XeroAccess::create([
-            'refresh_token' => $this->token->getRefreshToken(),
-            'token' => $this->token->getToken(),
-            'tenant_id' => collect($this->tenants)->pluck('tenantId')->first(),
-            'expires_at' => now()->addMinutes(29),
-        ]);
+            $this->credentials = XeroAccess::create([
+                'refresh_token' => $this->token->getRefreshToken(),
+                'token' => $this->token->getToken(),
+                'tenant_id' => collect($this->tenants)->pluck('tenantId')->first(),
+                'expires_at' => now()->addMinutes(29),
+            ]);
+        });
     }
 }
