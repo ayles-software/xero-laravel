@@ -13,8 +13,8 @@ class XeroAccess extends Model
 
     protected $guarded = [];
 
-    protected $dates = [
-        'expires_at',
+    protected $casts = [
+        'expires_at' => 'datetime',
     ];
 
     public static function latest()
