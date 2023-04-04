@@ -19,7 +19,7 @@ class XeroOAuth
 
     protected $provider;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, bool $autoRefresh = true)
     {
         $this->request = $request;
         $this->credentials = XeroAccess::latest();
@@ -29,8 +29,10 @@ class XeroOAuth
             'clientSecret' => config('xero-laravel.client_secret'),
             'redirectUri' => config('xero-laravel.redirect_url'),
         ]);
-
-        $this->refresh();
+        
+        if ($authRefresh) {
+            $this->refresh();    
+        }
     }
 
     public function flow()
