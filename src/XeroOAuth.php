@@ -30,7 +30,7 @@ class XeroOAuth
             'redirectUri' => config('xero-laravel.redirect_url'),
         ]);
         
-        if ($authRefresh) {
+        if ($autoRefresh) {
             $this->refresh();    
         }
     }
